@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo/core/routes/routes.dart';
+import 'package:todo/presentation/pages/category/create/cubit.dart';
 import 'package:todo/presentation/pages/category/create/view.dart';
 import 'package:todo/presentation/pages/category/view.dart';
 import 'package:todo/presentation/pages/home/cubit.dart';
@@ -36,7 +37,10 @@ abstract class RoutesConfig {
     ),
     GoRoute(
       path: Routes.categoryCreate,
-      builder: (context, state) => const CategoryCreateView(),
+      builder: (context, state) => BlocProvider(
+        create: (context) => CategoryCreateCubit(),
+        child: const CategoryCreateView(),
+      ),
     ),
   ];
 }

@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:todo/core/collections/category.dart';
+import 'package:todo/presentation/pages/category/create/cubit.dart';
+import 'package:todo/presentation/pages/category/create/state.dart';
 
 class CategoryCreateView extends StatefulWidget {
   const CategoryCreateView({super.key});
@@ -31,16 +36,40 @@ class _CategoryCreateViewState extends State<CategoryCreateView> {
               ),
             ),
           ),
-          Container(
-            alignment: Alignment.centerRight,
-            margin: const EdgeInsets.all(16),
-            child: FilledButton(
-              onPressed: () => {},
-              child: const Text('Create'),
+
+          // bloc listener
+          BlocListener<CategoryCreateCubit, CategoryCreateState>(
+            listener: (context, state) {
+              if (state is CategoryCreateStateSuccess) {
+                context.pop();
+              }
+
+              if (state is CategoryCreateStateFailure) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(state.errorMessage),
+                ));
+              }
+            },
+            child: Container(
+              alignment: Alignment.centerRight,
+              margin: const EdgeInsets.all(16),
+              child: FilledButton(
+                onPressed: () => _onTapButtonCreate(),
+                child: const Text('Create'),
+              ),
             ),
           ),
         ],
       ),
     );
+  }
+
+  void _onTapButtonCreate() {
+    final category = CollectionCategory();
+    category.name = _controllerName.text;
+
+    context.read<CategoryCreateCubit>().create(
+          category: category,
+        );
   }
 }
