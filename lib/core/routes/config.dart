@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:todo/core/routes/routes.dart';
 import 'package:todo/presentation/pages/category/create/cubit.dart';
 import 'package:todo/presentation/pages/category/create/view.dart';
+import 'package:todo/presentation/pages/category/cubit.dart';
 import 'package:todo/presentation/pages/category/view.dart';
 import 'package:todo/presentation/pages/home/cubit.dart';
 import 'package:todo/presentation/pages/home/view.dart';
@@ -33,7 +34,10 @@ abstract class RoutesConfig {
     // category
     GoRoute(
       path: Routes.category,
-      builder: (context, state) => const CategoryView(),
+      builder: (context, state) => BlocProvider(
+        create: (context) => CategoryCubit(),
+        child: const CategoryView(),
+      ),
     ),
     GoRoute(
       path: Routes.categoryCreate,

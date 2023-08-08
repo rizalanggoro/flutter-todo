@@ -44,4 +44,15 @@ class RepositoryCategoryImpl implements RepositoryCategory {
       await isar.collectionCategorys.put(category);
     });
   }
+
+  @override
+  Future<List<CollectionCategory>> read() async {
+    final isar = _providerIsar.isar;
+    return isar.collectionCategorys.where().sortByName().findAll();
+  }
+
+  @override
+  Stream<void> watchLazy() {
+    return _providerIsar.isar.collectionCategorys.watchLazy();
+  }
 }
