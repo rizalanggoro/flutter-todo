@@ -1,7 +1,9 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo/core/routes/routes.dart';
 import 'package:todo/presentation/pages/category/create/view.dart';
 import 'package:todo/presentation/pages/category/view.dart';
+import 'package:todo/presentation/pages/home/cubit.dart';
 import 'package:todo/presentation/pages/home/view.dart';
 import 'package:todo/presentation/pages/todo/create/view.dart';
 import 'package:todo/presentation/pages/todo/view.dart';
@@ -11,7 +13,10 @@ abstract class RoutesConfig {
   static final pages = <GoRoute>[
     GoRoute(
       path: Routes.home,
-      builder: (context, state) => const HomeView(),
+      builder: (context, state) => BlocProvider(
+        create: (context) => HomeCubit(),
+        child: const HomeView(),
+      ),
     ),
 
     // todo
