@@ -36,4 +36,10 @@ class CategoryCubit extends Cubit<CategoryState> {
       categories: result,
     ));
   }
+
+  void delete({
+    required int id,
+  }) async {
+    await _repositoryCategory.delete(id: id);
+  }
 }

@@ -52,6 +52,17 @@ class RepositoryCategoryImpl implements RepositoryCategory {
   }
 
   @override
+  Future<void> delete({
+    required int id,
+  }) async {
+    final isar = _providerIsar.isar;
+
+    await isar.writeTxn(() async {
+      await isar.collectionCategorys.delete(id);
+    });
+  }
+
+  @override
   Stream<void> watchLazy() {
     return _providerIsar.isar.collectionCategorys.watchLazy();
   }

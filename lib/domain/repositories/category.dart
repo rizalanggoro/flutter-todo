@@ -7,5 +7,9 @@ abstract class RepositoryCategory {
 
   Future<List<CollectionCategory>> read();
 
+  Future<void> delete({
+    required int id,
+  });
+
   Stream<void> watchLazy();
 }

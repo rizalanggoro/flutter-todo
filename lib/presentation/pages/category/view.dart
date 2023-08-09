@@ -30,11 +30,21 @@ class _CategoryViewState extends State<CategoryView> {
           }
 
           if (state is CategoryStateReadSuccess) {
+            final categories = state.categories;
+
+            if (categories.isEmpty) {
+              return const Center(
+                child: Text('No data'),
+              );
+            }
+
             return ListView.builder(
               itemBuilder: (context, index) {
+                final category = categories[index];
+
                 return ListTile(
                   title: Text(
-                    state.categories[index].name ?? 'No category name',
+                    category.name ?? 'No category name',
                   ),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -44,7 +54,9 @@ class _CategoryViewState extends State<CategoryView> {
                         icon: const Icon(Icons.edit_rounded),
                       ),
                       IconButton(
-                        onPressed: () => {},
+                        onPressed: () => context.read<CategoryCubit>().delete(
+                              id: category.id,
+                            ),
                         icon: const Icon(Icons.delete_rounded),
                       ),
                     ],
