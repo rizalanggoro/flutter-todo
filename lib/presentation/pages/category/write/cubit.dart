@@ -17,8 +17,10 @@ class CategoryWriteCubit extends Cubit<CategoryWriteState> {
   }) async {
     try {
       emit(CategoryWriteStateCreateLoading());
-      await _repositoryCategory.create(category: category);
-      emit(CategoryWriteStateCreateSuccess());
+      final result = await _repositoryCategory.create(category: category);
+      emit(CategoryWriteStateCreateSuccess(
+        category: result,
+      ));
     } catch (error) {
       var errorMessage = error.toString();
       if (error is ModelError) {
@@ -37,7 +39,9 @@ class CategoryWriteCubit extends Cubit<CategoryWriteState> {
     try {
       emit(CategoryWriteStateUpdateLoading());
       await _repositoryCategory.update(category: category);
-      emit(CategoryWriteStateUpdateSuccess());
+      emit(CategoryWriteStateUpdateSuccess(
+        category: category,
+      ));
     } catch (error) {
       var errorMessage = error.toString();
       if (error is ModelError) {

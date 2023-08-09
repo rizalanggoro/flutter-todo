@@ -22,7 +22,7 @@ class RepositoryCategoryImpl implements RepositoryCategory {
   }
 
   @override
-  Future<void> create({
+  Future<CollectionCategory> create({
     required CollectionCategory category,
   }) async {
     final isar = _providerIsar.isar;
@@ -40,9 +40,12 @@ class RepositoryCategoryImpl implements RepositoryCategory {
       throw (ModelError(message: 'Category with this name already added!'));
     }
 
+    var resultId = -1;
     await isar.writeTxn(() async {
-      await isar.collectionCategorys.put(category);
+      resultId = await isar.collectionCategorys.put(category);
     });
+
+    return category..id = resultId;
   }
 
   @override
@@ -75,18 +78,16 @@ class RepositoryCategoryImpl implements RepositoryCategory {
   }
 
   @override
-  Future<void> delete({
+  Future<bool> delete({
     required int id,
   }) async {
     final isar = _providerIsar.isar;
 
+    var result = false;
     await isar.writeTxn(() async {
-      await isar.collectionCategorys.delete(id);
+      result = await isar.collectionCategorys.delete(id);
     });
-  }
 
-  @override
-  Stream<void> watchLazy() {
-    return _providerIsar.isar.collectionCategorys.watchLazy();
+    return result;
   }
 }

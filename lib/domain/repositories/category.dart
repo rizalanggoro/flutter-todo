@@ -1,7 +1,7 @@
 import 'package:todo/core/collections/category.dart';
 
 abstract class RepositoryCategory {
-  Future<void> create({
+  Future<CollectionCategory> create({
     required CollectionCategory category,
   });
 
@@ -11,9 +11,7 @@ abstract class RepositoryCategory {
     required CollectionCategory category,
   });
 
-  Future<void> delete({
+  Future<bool> delete({
     required int id,
   });
-
-  Stream<void> watchLazy();
 }

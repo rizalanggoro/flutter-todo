@@ -69,9 +69,11 @@ class _CategoryWriteViewState extends State<CategoryWriteView> {
           // bloc listener
           BlocListener<CategoryWriteCubit, CategoryWriteState>(
             listener: (context, state) {
-              if (state is CategoryWriteStateCreateSuccess ||
-                  state is CategoryWriteStateUpdateSuccess) {
-                context.pop();
+              if (state is CategoryWriteStateCreateSuccess) {
+                context.pop(state.category);
+              }
+              if (state is CategoryWriteStateUpdateSuccess) {
+                context.pop(state.category);
               }
 
               if (state is CategoryWriteStateCreateFailure) {
