@@ -30,7 +30,7 @@ class _CategoryViewState extends State<CategoryView> {
           }
 
           if (state is CategoryStateReadSuccess) {
-            final categories = state.categories;
+            final categories = state.listCategory;
 
             if (categories.isEmpty) {
               return const Center(
@@ -66,7 +66,7 @@ class _CategoryViewState extends State<CategoryView> {
                   ),
                 );
               },
-              itemCount: state.categories.length,
+              itemCount: state.listCategory.length,
             );
           }
 

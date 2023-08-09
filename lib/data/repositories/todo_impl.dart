@@ -39,6 +39,17 @@ class RepositoryTodoImpl implements RepositoryTodo {
   }
 
   @override
+  Future<void> markAsDone({
+    required CollectionTodo todo,
+  }) async {
+    final isar = _providerIsar.isar;
+    await isar.writeTxn(() async {
+      await isar.collectionTodos.put(todo);
+      await todo.category.save();
+    });
+  }
+
+  @override
   Stream<void> watchLazy() {
     final isar = _providerIsar.isar;
     return isar.collectionTodos.watchLazy();

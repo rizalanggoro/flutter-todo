@@ -6,9 +6,9 @@ sealed class CategoryStateRead extends CategoryState {}
 class CategoryStateReadLoading extends CategoryStateRead {}
 
 class CategoryStateReadSuccess extends CategoryStateRead {
-  final List<CollectionCategory> categories;
+  final List<CollectionCategory> listCategory;
 
   CategoryStateReadSuccess({
-    required this.categories,
+    required this.listCategory,
   });
 }

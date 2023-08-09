@@ -33,7 +33,7 @@ class CategoryCubit extends Cubit<CategoryState> {
     final result = await _repositoryCategory.read();
 
     emit(CategoryStateReadSuccess(
-      categories: result,
+      listCategory: result,
     ));
   }
 

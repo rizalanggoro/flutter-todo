@@ -22,8 +22,13 @@ const CollectionTodoSchema = CollectionSchema(
       name: r'detail',
       type: IsarType.string,
     ),
-    r'title': PropertySchema(
+    r'isDone': PropertySchema(
       id: 1,
+      name: r'isDone',
+      type: IsarType.bool,
+    ),
+    r'title': PropertySchema(
+      id: 2,
       name: r'title',
       type: IsarType.string,
     )
@@ -77,7 +82,8 @@ void _collectionTodoSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.detail);
-  writer.writeString(offsets[1], object.title);
+  writer.writeBool(offsets[1], object.isDone);
+  writer.writeString(offsets[2], object.title);
 }
 
 CollectionTodo _collectionTodoDeserialize(
@@ -89,7 +95,8 @@ CollectionTodo _collectionTodoDeserialize(
   final object = CollectionTodo();
   object.detail = reader.readStringOrNull(offsets[0]);
   object.id = id;
-  object.title = reader.readStringOrNull(offsets[1]);
+  object.isDone = reader.readBoolOrNull(offsets[1]);
+  object.title = reader.readStringOrNull(offsets[2]);
   return object;
 }
 
@@ -103,6 +110,8 @@ P _collectionTodoDeserializeProp<P>(
     case 0:
       return (reader.readStringOrNull(offset)) as P;
     case 1:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 2:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -417,6 +426,34 @@ extension CollectionTodoQueryFilter
   }
 
   QueryBuilder<CollectionTodo, CollectionTodo, QAfterFilterCondition>
+      isDoneIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'isDone',
+      ));
+    });
+  }
+
+  QueryBuilder<CollectionTodo, CollectionTodo, QAfterFilterCondition>
+      isDoneIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'isDone',
+      ));
+    });
+  }
+
+  QueryBuilder<CollectionTodo, CollectionTodo, QAfterFilterCondition>
+      isDoneEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isDone',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<CollectionTodo, CollectionTodo, QAfterFilterCondition>
       titleIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -606,6 +643,19 @@ extension CollectionTodoQuerySortBy
     });
   }
 
+  QueryBuilder<CollectionTodo, CollectionTodo, QAfterSortBy> sortByIsDone() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isDone', Sort.asc);
+    });
+  }
+
+  QueryBuilder<CollectionTodo, CollectionTodo, QAfterSortBy>
+      sortByIsDoneDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isDone', Sort.desc);
+    });
+  }
+
   QueryBuilder<CollectionTodo, CollectionTodo, QAfterSortBy> sortByTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.asc);
@@ -646,6 +696,19 @@ extension CollectionTodoQuerySortThenBy
     });
   }
 
+  QueryBuilder<CollectionTodo, CollectionTodo, QAfterSortBy> thenByIsDone() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isDone', Sort.asc);
+    });
+  }
+
+  QueryBuilder<CollectionTodo, CollectionTodo, QAfterSortBy>
+      thenByIsDoneDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isDone', Sort.desc);
+    });
+  }
+
   QueryBuilder<CollectionTodo, CollectionTodo, QAfterSortBy> thenByTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.asc);
@@ -668,6 +731,12 @@ extension CollectionTodoQueryWhereDistinct
     });
   }
 
+  QueryBuilder<CollectionTodo, CollectionTodo, QDistinct> distinctByIsDone() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isDone');
+    });
+  }
+
   QueryBuilder<CollectionTodo, CollectionTodo, QDistinct> distinctByTitle(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -687,6 +756,12 @@ extension CollectionTodoQueryProperty
   QueryBuilder<CollectionTodo, String?, QQueryOperations> detailProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'detail');
+    });
+  }
+
+  QueryBuilder<CollectionTodo, bool?, QQueryOperations> isDoneProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isDone');
     });
   }
 

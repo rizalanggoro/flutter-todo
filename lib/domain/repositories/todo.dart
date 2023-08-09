@@ -7,5 +7,9 @@ abstract class RepositoryTodo {
 
   Future<List<CollectionTodo>> read();
 
+  Future<void> markAsDone({
+    required CollectionTodo todo,
+  });
+
   Stream<void> watchLazy();
 }

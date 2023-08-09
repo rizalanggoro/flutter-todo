@@ -10,5 +10,7 @@ class CollectionTodo {
   String? title;
   String? detail;
 
+  bool? isDone;
+
   final category = IsarLink<CollectionCategory>();
 }

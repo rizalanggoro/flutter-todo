@@ -20,7 +20,10 @@ class _HomeDashboardViewState extends State<HomeDashboardView> {
     return Scaffold(
       appBar: AppBar(title: const Text('Dashboard')),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => context.push(Routes.todoCreate),
+        onPressed: () async {
+          final result = await context.push(Routes.todoCreate);
+          if (result != null && result is CollectionTodo) {}
+        },
         child: const Icon(Icons.add_rounded),
       ),
       body: BlocBuilder<HomeDashboardCubit, HomeDashboardState>(
@@ -53,12 +56,29 @@ class _HomeDashboardViewState extends State<HomeDashboardView> {
         final todo = listTodo[index];
 
         return ListTile(
+          leading: Checkbox(
+            value: todo.isDone ?? false,
+            onChanged: (bool? value) {
+              context.read<HomeDashboardCubit>().markAsDone(
+                    todo: todo,
+                  );
+              // if (value != null && value) {
+              //   context.read<HomeDashboardCubit>().unmarkAsDone(
+              //         todo: todo,
+              //       );
+              // } else {
+
+              // }
+            },
+          ),
           title: Text(todo.title ?? 'No title'),
           subtitle: Text(
             todo.category.value?.name ?? 'No category',
           ),
           trailing: const Icon(Icons.chevron_right_rounded),
-          onTap: () => {},
+          onTap: () => context.read<HomeDashboardCubit>().markAsDone(
+                todo: todo,
+              ),
         );
       },
       itemCount: listTodo.length,
