@@ -6,4 +6,6 @@ abstract class RepositoryTodo {
   });
 
   Future<List<CollectionTodo>> read();
+
+  Stream<void> watchLazy();
 }

@@ -37,4 +37,10 @@ class RepositoryTodoImpl implements RepositoryTodo {
     final isar = _providerIsar.isar;
     return isar.collectionTodos.where().findAll();
   }
+
+  @override
+  Stream<void> watchLazy() {
+    final isar = _providerIsar.isar;
+    return isar.collectionTodos.watchLazy();
+  }
 }
