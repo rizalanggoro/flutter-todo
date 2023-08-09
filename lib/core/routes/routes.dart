@@ -8,4 +8,5 @@ abstract class Routes {
   // category
   static const category = '/category';
   static const categoryWrite = '/category-write';
+  static const categorySelect = '/category-select';
 }

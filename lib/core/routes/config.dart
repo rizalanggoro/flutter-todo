@@ -2,13 +2,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo/core/collections/category.dart';
 import 'package:todo/core/routes/routes.dart';
+import 'package:todo/presentation/pages/category/select/view.dart';
 import 'package:todo/presentation/pages/category/write/cubit.dart';
 import 'package:todo/presentation/pages/category/write/view.dart';
 import 'package:todo/presentation/pages/category/cubit.dart';
 import 'package:todo/presentation/pages/category/view.dart';
 import 'package:todo/presentation/pages/home/cubit.dart';
 import 'package:todo/presentation/pages/home/view.dart';
-import 'package:todo/presentation/pages/todo/create/view.dart';
+import 'package:todo/presentation/pages/todo/write/cubit.dart';
+import 'package:todo/presentation/pages/todo/write/view.dart';
 import 'package:todo/presentation/pages/todo/view.dart';
 
 abstract class RoutesConfig {
@@ -29,7 +31,12 @@ abstract class RoutesConfig {
     ),
     GoRoute(
       path: Routes.todoCreate,
-      builder: (context, state) => const TodoCreateView(),
+      builder: (context, state) {
+        return BlocProvider(
+          create: (context) => TodoWriteCubit(),
+          child: const TodoWriteView(),
+        );
+      },
     ),
 
     // category
@@ -55,6 +62,21 @@ abstract class RoutesConfig {
           child: CategoryWriteView(
             category: category,
           ),
+        );
+      },
+    ),
+    GoRoute(
+      path: Routes.categorySelect,
+      builder: (context, state) {
+        CollectionCategory? initialCategory;
+
+        final extra = state.extra;
+        if (extra != null && extra is CollectionCategory) {
+          initialCategory = extra;
+        }
+
+        return CategorySelectView(
+          initialCategory: initialCategory,
         );
       },
     ),

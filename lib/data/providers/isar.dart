@@ -1,6 +1,7 @@
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:todo/core/collections/category.dart';
+import 'package:todo/core/collections/todo.dart';
 
 class ProviderIsar {
   late Isar _isar;
@@ -10,7 +11,10 @@ class ProviderIsar {
   Future<void> initialize() async {
     final dir = await getApplicationDocumentsDirectory();
     _isar = await Isar.open(
-      [CollectionCategorySchema],
+      [
+        CollectionCategorySchema,
+        CollectionTodoSchema,
+      ],
       directory: dir.path,
     );
   }

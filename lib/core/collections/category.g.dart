@@ -30,7 +30,15 @@ const CollectionCategorySchema = CollectionSchema(
   deserializeProp: _collectionCategoryDeserializeProp,
   idName: r'id',
   indexes: {},
-  links: {},
+  links: {
+    r'listTodo': LinkSchema(
+      id: 1766109738949377184,
+      name: r'listTodo',
+      target: r'CollectionTodo',
+      single: false,
+      linkName: r'category',
+    )
+  },
   embeddedSchemas: {},
   getId: _collectionCategoryGetId,
   getLinks: _collectionCategoryGetLinks,
@@ -94,12 +102,14 @@ Id _collectionCategoryGetId(CollectionCategory object) {
 
 List<IsarLinkBase<dynamic>> _collectionCategoryGetLinks(
     CollectionCategory object) {
-  return [];
+  return [object.listTodo];
 }
 
 void _collectionCategoryAttach(
     IsarCollection<dynamic> col, Id id, CollectionCategory object) {
   object.id = id;
+  object.listTodo
+      .attach(col, col.isar.collection<CollectionTodo>(), r'listTodo', id);
 }
 
 extension CollectionCategoryQueryWhereSort
@@ -399,7 +409,68 @@ extension CollectionCategoryQueryObject
     on QueryBuilder<CollectionCategory, CollectionCategory, QFilterCondition> {}
 
 extension CollectionCategoryQueryLinks
-    on QueryBuilder<CollectionCategory, CollectionCategory, QFilterCondition> {}
+    on QueryBuilder<CollectionCategory, CollectionCategory, QFilterCondition> {
+  QueryBuilder<CollectionCategory, CollectionCategory, QAfterFilterCondition>
+      listTodo(FilterQuery<CollectionTodo> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'listTodo');
+    });
+  }
+
+  QueryBuilder<CollectionCategory, CollectionCategory, QAfterFilterCondition>
+      listTodoLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'listTodo', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<CollectionCategory, CollectionCategory, QAfterFilterCondition>
+      listTodoIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'listTodo', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<CollectionCategory, CollectionCategory, QAfterFilterCondition>
+      listTodoIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'listTodo', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<CollectionCategory, CollectionCategory, QAfterFilterCondition>
+      listTodoLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'listTodo', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<CollectionCategory, CollectionCategory, QAfterFilterCondition>
+      listTodoLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'listTodo', length, include, 999999, true);
+    });
+  }
+
+  QueryBuilder<CollectionCategory, CollectionCategory, QAfterFilterCondition>
+      listTodoLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(
+          r'listTodo', lower, includeLower, upper, includeUpper);
+    });
+  }
+}
 
 extension CollectionCategoryQuerySortBy
     on QueryBuilder<CollectionCategory, CollectionCategory, QSortBy> {
