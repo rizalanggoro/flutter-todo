@@ -7,6 +7,10 @@ abstract class RepositoryCategory {
 
   Future<List<CollectionCategory>> read();
 
+  Future<void> update({
+    required CollectionCategory category,
+  });
+
   Future<void> delete({
     required int id,
   });

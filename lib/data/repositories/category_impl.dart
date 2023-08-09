@@ -52,6 +52,29 @@ class RepositoryCategoryImpl implements RepositoryCategory {
   }
 
   @override
+  Future<void> update({
+    required CollectionCategory category,
+  }) async {
+    final categoryName = category.name;
+    if (categoryName == null) {
+      throw (ModelError(message: 'Category name can\'t be null!'));
+    }
+
+    if (categoryName.trim().isEmpty) {
+      throw (ModelError(message: 'Category name can\'t be blank!'));
+    }
+
+    if (!await _isAvailableToCreate(name: categoryName)) {
+      throw (ModelError(message: 'Category with this name already added!'));
+    }
+
+    final isar = _providerIsar.isar;
+    await isar.writeTxn(() async {
+      await isar.collectionCategorys.put(category);
+    });
+  }
+
+  @override
   Future<void> delete({
     required int id,
   }) async {

@@ -1,8 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todo/core/collections/category.dart';
 import 'package:todo/core/routes/routes.dart';
-import 'package:todo/presentation/pages/category/create/cubit.dart';
-import 'package:todo/presentation/pages/category/create/view.dart';
+import 'package:todo/presentation/pages/category/write/cubit.dart';
+import 'package:todo/presentation/pages/category/write/view.dart';
 import 'package:todo/presentation/pages/category/cubit.dart';
 import 'package:todo/presentation/pages/category/view.dart';
 import 'package:todo/presentation/pages/home/cubit.dart';
@@ -40,11 +41,22 @@ abstract class RoutesConfig {
       ),
     ),
     GoRoute(
-      path: Routes.categoryCreate,
-      builder: (context, state) => BlocProvider(
-        create: (context) => CategoryCreateCubit(),
-        child: const CategoryCreateView(),
-      ),
+      path: Routes.categoryWrite,
+      builder: (context, state) {
+        CollectionCategory? category;
+
+        final extra = state.extra;
+        if (extra != null && extra is CollectionCategory) {
+          category = extra;
+        }
+
+        return BlocProvider(
+          create: (context) => CategoryWriteCubit(),
+          child: CategoryWriteView(
+            category: category,
+          ),
+        );
+      },
     ),
   ];
 }

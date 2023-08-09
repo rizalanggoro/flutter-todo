@@ -19,7 +19,7 @@ class _CategoryViewState extends State<CategoryView> {
     return Scaffold(
       appBar: AppBar(title: const Text('My Category')),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => context.push(Routes.categoryCreate),
+        onPressed: () => context.push(Routes.categoryWrite),
         child: const Icon(Icons.add_rounded),
       ),
       body: BlocBuilder<CategoryCubit, CategoryState>(
@@ -50,7 +50,10 @@ class _CategoryViewState extends State<CategoryView> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
-                        onPressed: () => {},
+                        onPressed: () => context.push(
+                          Routes.categoryWrite,
+                          extra: category,
+                        ),
                         icon: const Icon(Icons.edit_rounded),
                       ),
                       IconButton(

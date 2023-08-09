@@ -7,5 +7,5 @@ abstract class Routes {
 
   // category
   static const category = '/category';
-  static const categoryCreate = '/category-create';
+  static const categoryWrite = '/category-write';
 }
