@@ -1,3 +1,4 @@
+import 'package:isar/isar.dart';
 import 'package:todo/core/collections/todo.dart';
 import 'package:todo/core/di/dependency_injection.dart';
 import 'package:todo/core/models/error.dart';
@@ -29,5 +30,11 @@ class RepositoryTodoImpl implements RepositoryTodo {
       await isar.collectionTodos.put(todo);
       await todo.category.save();
     });
+  }
+
+  @override
+  Future<List<CollectionTodo>> read() async {
+    final isar = _providerIsar.isar;
+    return isar.collectionTodos.where().findAll();
   }
 }

@@ -8,27 +8,26 @@ import 'package:todo/presentation/pages/category/write/view.dart';
 import 'package:todo/presentation/pages/category/cubit.dart';
 import 'package:todo/presentation/pages/category/view.dart';
 import 'package:todo/presentation/pages/home/cubit.dart';
+import 'package:todo/presentation/pages/home/modules/dashboard/cubit.dart';
 import 'package:todo/presentation/pages/home/view.dart';
 import 'package:todo/presentation/pages/todo/write/cubit.dart';
 import 'package:todo/presentation/pages/todo/write/view.dart';
-import 'package:todo/presentation/pages/todo/view.dart';
 
 abstract class RoutesConfig {
   static final value = GoRouter(routes: pages);
   static final pages = <GoRoute>[
     GoRoute(
       path: Routes.home,
-      builder: (context, state) => BlocProvider(
-        create: (context) => HomeCubit(),
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => HomeCubit()),
+          BlocProvider(create: (context) => HomeDashboardCubit()),
+        ],
         child: const HomeView(),
       ),
     ),
 
     // todo
-    GoRoute(
-      path: Routes.todo,
-      builder: (context, state) => const TodoView(),
-    ),
     GoRoute(
       path: Routes.todoCreate,
       builder: (context, state) {

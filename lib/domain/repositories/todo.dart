@@ -4,4 +4,6 @@ abstract class RepositoryTodo {
   Future<void> create({
     required CollectionTodo todo,
   });
+
+  Future<List<CollectionTodo>> read();
 }
